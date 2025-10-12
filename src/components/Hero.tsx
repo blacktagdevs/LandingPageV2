@@ -1,7 +1,7 @@
 import { Button } from "./ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import logoImage from "figma:asset/3da411c0a3b644d5c8195b1ab622779ebc2cbb9e.png";
+// import logoImage from "figma:asset/3da411c0a3b644d5c8195b1ab622779ebc2cbb9e.png";
 
 export function Hero() {
   const scrollToContact = () => {
