@@ -2,14 +2,20 @@ import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
+// Import project images
+import stemposureImg from "../assets/stemposure.png";
+import drunkenBeeImg from "../assets/drunkenbee.JPG";
+import tajaImg from "../assets/TAJA.png";
+import holmImg from "../assets/holm.png";
+import renderAtlImg from "../assets/RenderATL_Logo.jpg";
+
 export function Portfolio() {
   const projects = [
     {
       title: "Stemposure",
       description:
         "Built a dynamic platform connecting thousands of Black & Brown STEM professionals with career opportunities and industry insights.",
-      image:
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&crop=center",
+      image: stemposureImg,
       tags: ["React", "Node.js", "Community Platform", "Event Management"],
       category: "Community Platform",
       metrics: ["300+ Event RSVPs", "20% MoM Growth", "Thousands Connected"],
@@ -18,8 +24,7 @@ export function Portfolio() {
       title: "DrunkenBee",
       description:
         "E-commerce platform with multi-channel sales integration and optimized for search visibility and customer retention.",
-      image:
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&crop=center",
+      image: drunkenBeeImg,
       tags: ["E-Commerce", "SEO", "Multi-Channel", "Analytics"],
       category: "E-Commerce",
       metrics: [
@@ -32,8 +37,7 @@ export function Portfolio() {
       title: "Taja",
       description:
         "PCI-compliant payment processing system with real-time transaction capabilities and 99.99% uptime.",
-      image:
-        "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop&crop=center",
+      image: tajaImg,
       tags: ["FinTech", "PCI Compliance", "Real-time", "Security"],
       category: "FinTech",
       metrics: ["$500K+ Processed", "100+ Merchants", "99.99% Uptime"],
@@ -56,8 +60,7 @@ export function Portfolio() {
       title: "Holm",
       description:
         "Modern platform with user authentication, gallery features, and subscription-based services designed for creative professionals.",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&crop=center",
+      image: holmImg,
       tags: ["Authentication", "Gallery", "Subscription", "Modern Design"],
       category: "Creative Platform",
       metrics: ["User Authentication", "Gallery System", "Subscription Model"],
@@ -66,8 +69,7 @@ export function Portfolio() {
       title: "Render Atlanta",
       description:
         "Provided comprehensive IT services and technical infrastructure support for Atlanta's premier tech conference with 10,000+ attendees and 120+ speakers.",
-      image:
-        "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop&crop=center",
+      image: renderAtlImg,
       tags: [
         "IT Services",
         "Event Infrastructure",
