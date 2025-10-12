@@ -101,11 +101,11 @@ export function Portfolio() {
               key={index}
               className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-2"
             >
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
                 <ImageWithFallback
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-48 object-contain p-4 transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
 
