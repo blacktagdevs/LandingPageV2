@@ -71,9 +71,9 @@ export function About() {
     {
       name: "Bosun Adepoju",
       role: "Chief Technology Officer",
-      position: "Senior Fullstack Engineer @ Amex",
+      position: "Lead Software Engineer",
       image: teamMember1,
-      bio: "Senior Fullstack Engineer at American Express with expertise in building scalable enterprise applications.",
+      bio: "Our Lead Software Engineer with expertise in building scalable enterprise applications.",
       linkedin: "https://www.linkedin.com/company/blacktagdevs/",
       email: "blacktagdevs@gmail.com",
     },
