@@ -57,7 +57,8 @@ export function Footer() {
                 <img
                   src={logoImage}
                   alt="BlackTagDevs Logo"
-                  className="w-8 h-8 object-contain brightness-0 invert"
+                  className="w-8 h-8 object-contain"
+                  style={{ filter: "invert(1) brightness(2)" }}
                 />
               </div>
               <p className="text-primary-foreground/80 max-w-md">

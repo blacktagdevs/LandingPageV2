@@ -7,7 +7,8 @@ import { useState } from "react";
 
 export function Contact() {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     subject: "",
     message: "",
@@ -19,13 +20,11 @@ export function Contact() {
     // Create mailto URL with form data
     const recipient = "blacktagdevs@gmail.com";
     const subject = encodeURIComponent(
-      formData.subject || "Contact from Landing Page"
+      `[INQUIRY] - ${formData.firstName} ${formData.lastName} - ${
+        formData.subject || "Contact from Landing Page"
+      }`
     );
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-        `Email: ${formData.email}\n\n` +
-        `Message:\n${formData.message}`
-    );
+    const body = encodeURIComponent(formData.message);
 
     const mailtoURL = `mailto:${recipient}?subject=${subject}&body=${body}`;
 
@@ -120,19 +119,35 @@ export function Contact() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium">
-                        Name *
+                      <label
+                        htmlFor="firstName"
+                        className="text-sm font-medium"
+                      >
+                        First Name *
                       </label>
                       <Input
-                        id="name"
-                        name="name"
-                        placeholder="Your name"
-                        value={formData.name}
+                        id="firstName"
+                        name="firstName"
+                        placeholder="Your first name"
+                        value={formData.firstName}
                         onChange={handleChange}
                         required
                       />
                     </div>
                     <div className="space-y-2">
+                      <label htmlFor="lastName" className="text-sm font-medium">
+                        Last Name *
+                      </label>
+                      <Input
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Your last name"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    {/* <div className="space-y-2">
                       <label htmlFor="email" className="text-sm font-medium">
                         Email *
                       </label>
@@ -145,7 +160,7 @@ export function Contact() {
                         onChange={handleChange}
                         required
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="space-y-2">

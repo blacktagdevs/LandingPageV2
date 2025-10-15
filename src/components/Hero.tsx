@@ -2,6 +2,7 @@ import { Button } from "./ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import logoImage from "figma:asset/3da411c0a3b644d5c8195b1ab622779ebc2cbb9e.png";
+import codingImage from "../assets/black-and-white-black-and-white-code-coding.jpg";
 
 export function Hero() {
   const scrollToContact = () => {
@@ -91,8 +92,8 @@ export function Hero() {
           <div className="relative">
             <div className="relative z-10">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1559028006-448665bd7c7f?w=600&h=600&fit=crop&crop=faces"
-                alt="Design workspace with modern laptop and design tools"
+                src={codingImage}
+                alt="Black and white coding workspace"
                 className="w-full h-[500px] object-cover rounded-3xl shadow-2xl"
               />
             </div>
