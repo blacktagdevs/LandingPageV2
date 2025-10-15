@@ -197,11 +197,13 @@ export function About() {
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=300&h=400&fit=crop&crop=faces"
                   alt="Team collaboration"
                   className="w-full h-64 object-cover rounded-2xl"
+                  style={{ filter: "grayscale(100%)" }}
                 />
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=300&h=300&fit=crop&crop=center"
                   alt="Modern office space"
                   className="w-full h-48 object-cover rounded-2xl"
+                  style={{ filter: "grayscale(100%)" }}
                 />
               </div>
               <div className="space-y-6 pt-12">
@@ -209,11 +211,13 @@ export function About() {
                   src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=300&h=300&fit=crop&crop=faces"
                   alt="Creative workspace"
                   className="w-full h-48 object-cover rounded-2xl"
+                  style={{ filter: "grayscale(100%)" }}
                 />
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=300&h=400&fit=crop&crop=center"
                   alt="Design process"
                   className="w-full h-64 object-cover rounded-2xl"
+                  style={{ filter: "grayscale(100%)" }}
                 />
               </div>
             </div>
