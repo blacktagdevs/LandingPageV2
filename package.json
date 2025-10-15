@@ -2,7 +2,7 @@
   "name": "blacktagdevs-landing-page",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://blacktagdevs.github.io/LandingPageV2",
+  "homepage": "https://blacktagdevs.com",
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@radix-ui/react-accordion": "^1.2.3",
