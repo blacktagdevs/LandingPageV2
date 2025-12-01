@@ -2,7 +2,7 @@ import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Button } from "./ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 // Import project images
@@ -26,6 +26,7 @@ export function Portfolio() {
       tags: ["Authentication", "Gallery", "Subscription", "Modern Design"],
       category: "Creative Platform",
       metrics: ["User Authentication", "Gallery System", "Subscription Model"],
+      link: "https://holm.site",
     },
     {
       title: "Render Atlanta",
@@ -40,6 +41,7 @@ export function Portfolio() {
       ],
       category: "Event Technology",
       metrics: ["10,000+ Attendees", "120+ Speakers", "2-Day Conference"],
+      link: "https://renderatl.com/",
     },
     {
       title: "HBCUMade",
@@ -53,6 +55,7 @@ export function Portfolio() {
         "Digital Marketplace",
         "Cultural Commerce",
       ],
+      link: "https://www.hbcumade.app/",
     },
     {
       title: "Stemposure",
@@ -75,6 +78,7 @@ export function Portfolio() {
         "4+ Sales Channels",
         "35% Customer Retention",
       ],
+      link: "https://drunkenbeegame.com/",
     },
     {
       title: "Taja",
@@ -175,6 +179,17 @@ export function Portfolio() {
                       <p className="text-sm text-muted-foreground mt-2">
                         {project.description}
                       </p>
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 hover:underline mt-3 font-medium"
+                        >
+                          Visit Site
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      )}
                     </div>
 
                     <div className="flex flex-wrap gap-2">
