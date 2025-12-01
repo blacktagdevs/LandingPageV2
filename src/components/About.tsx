@@ -12,7 +12,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import teamMember2 from "figma:asset/6cd55b63ea286021d9ee06be2562d4489fee84a0.png";
 import teamMember1 from "figma:asset/ef0aa281c074ace4d8649ac161335243834a735a.png";
 import teamMember4 from "figma:asset/f6ff609e5d3599d4f547ec450bd350bf7a6299a0.png";
-import teamMember3 from "figma:asset/46c20356d74067a0f69b630934620d5a54bac342.png";
+import teamMember3 from "../assets/daniel.png";
 
 export function About() {
   const values = [
