@@ -4,8 +4,8 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 // Import project images
 import stemposureImg from "../assets/stemposure.png";
-import drunkenBeeImg from "../assets/drunkenbee.webp";
-import simpleLogoImg from "../assets/simpleLogo.svg";
+import drunkenBeeImg from "../assets/drunkenbee.JPG";
+import tajaImg from "../assets/TAJA.png";
 import holmImg from "../assets/holm.png";
 import renderAtlImg from "../assets/RenderATL_Logo.jpg";
 
@@ -37,7 +37,7 @@ export function Portfolio() {
       title: "Taja",
       description:
         "PCI-compliant payment processing system with real-time transaction capabilities and 99.99% uptime.",
-      image: simpleLogoImg,
+      image: tajaImg,
       tags: ["FinTech", "PCI Compliance", "Real-time", "Security"],
       category: "FinTech",
       metrics: ["$500K+ Processed", "100+ Merchants", "99.99% Uptime"],
@@ -46,7 +46,8 @@ export function Portfolio() {
       title: "RendezView",
       description:
         "AI-powered event planning platform designed to improve vendor conversion rates through intelligent recommendations.",
-      image: simpleLogoImg,
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center",
       tags: ["AI/ML", "Event Planning", "Recommendations", "Analytics"],
       category: "AI-Powered Platform",
       metrics: [
@@ -100,24 +101,10 @@ export function Portfolio() {
               key={index}
               className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-2 gap-0"
             >
-              <div
-                className="relative overflow-hidden flex items-center justify-center"
-                style={
-                  project.title === "DrunkenBee"
-                    ? { background: "rgb(37, 35, 38)" }
-                    : {}
-                }
-              >
-                <div
-                  className={
-                    project.title !== "DrunkenBee"
-                      ? "bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 w-full h-full absolute inset-0"
-                      : ""
-                  }
-                ></div>
+              <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center">
                 {project.title === "Holm" ? (
                   <p
-                    className="font-semibold text-center w-full h-48 flex items-center justify-center p-4"
+                    className="font-semibold text-center"
                     style={{
                       fontFamily:
                         '"Inter Display", "Inter Display Placeholder", sans-serif',
