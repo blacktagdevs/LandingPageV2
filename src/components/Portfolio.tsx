@@ -8,9 +8,46 @@ import drunkenBeeImg from "../assets/drunkenbee.JPG";
 import tajaImg from "../assets/TAJA.png";
 import holmImg from "../assets/holm.png";
 import renderAtlImg from "../assets/RenderATL_Logo.jpg";
+import hbcuMadeImg from "../assets/hbcumade.png";
 
 export function Portfolio() {
   const projects = [
+    {
+      title: "Holm",
+      description:
+        "Modern platform with user authentication, gallery features, and subscription-based services designed for creative professionals.",
+      image: holmImg,
+      tags: ["Authentication", "Gallery", "Subscription", "Modern Design"],
+      category: "Creative Platform",
+      metrics: ["User Authentication", "Gallery System", "Subscription Model"],
+    },
+    {
+      title: "Render Atlanta",
+      description:
+        "Provided comprehensive IT services and technical infrastructure support for Atlanta's premier tech conference with 10,000+ attendees and 120+ speakers.",
+      image: renderAtlImg,
+      tags: [
+        "IT Services",
+        "Event Infrastructure",
+        "Large Scale",
+        "Tech Support",
+      ],
+      category: "Event Technology",
+      metrics: ["10,000+ Attendees", "120+ Speakers", "2-Day Conference"],
+    },
+    {
+      title: "HBCUMade",
+      description:
+        "A digital marketplace celebrating and empowering HBCU entrepreneurs by connecting them with customers who value Black excellence and HBCU culture.",
+      image: hbcuMadeImg,
+      tags: ["E-Commerce", "Marketplace", "HBCU", "Community"],
+      category: "Marketplace Platform",
+      metrics: [
+        "HBCU Entrepreneurs",
+        "Digital Marketplace",
+        "Cultural Commerce",
+      ],
+    },
     {
       title: "Stemposure",
       description:
@@ -55,29 +92,6 @@ export function Portfolio() {
         "$100K+ Potential Bookings",
         "25% Conversion Boost",
       ],
-    },
-    {
-      title: "Holm",
-      description:
-        "Modern platform with user authentication, gallery features, and subscription-based services designed for creative professionals.",
-      image: holmImg,
-      tags: ["Authentication", "Gallery", "Subscription", "Modern Design"],
-      category: "Creative Platform",
-      metrics: ["User Authentication", "Gallery System", "Subscription Model"],
-    },
-    {
-      title: "Render Atlanta",
-      description:
-        "Provided comprehensive IT services and technical infrastructure support for Atlanta's premier tech conference with 10,000+ attendees and 120+ speakers.",
-      image: renderAtlImg,
-      tags: [
-        "IT Services",
-        "Event Infrastructure",
-        "Large Scale",
-        "Tech Support",
-      ],
-      category: "Event Technology",
-      metrics: ["10,000+ Attendees", "120+ Speakers", "2-Day Conference"],
     },
   ];
 
