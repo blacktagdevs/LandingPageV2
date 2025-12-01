@@ -1,6 +1,9 @@
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { Button } from "./ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 // Import project images
 import stemposureImg from "../assets/stemposure.png";
@@ -11,6 +14,9 @@ import renderAtlImg from "../assets/RenderATL_Logo.jpg";
 import hbcuMadeImg from "../assets/hbcumade.png";
 
 export function Portfolio() {
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 6;
+
   const projects = [
     {
       title: "Holm",
@@ -108,78 +114,119 @@ export function Portfolio() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <Card
-              key={index}
-              className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-2 gap-0"
-            >
-              <div
-                className="relative overflow-hidden flex items-center justify-center"
-                style={
-                  project.title === "DrunkenBee"
-                    ? { background: "rgb(37, 35, 38)" }
-                    : {}
-                }
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500 ease-in-out">
+          {projects
+            .slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+            .map((project, index) => (
+              <Card
+                key={index}
+                className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-2 gap-0 animate-in fade-in slide-in-from-bottom-4"
+                style={{
+                  animationDelay: `${index * 50}ms`,
+                  animationFillMode: "backwards",
+                }}
               >
                 <div
-                  className={
-                    project.title !== "DrunkenBee"
-                      ? "bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 w-full h-full absolute inset-0"
-                      : ""
+                  className="relative overflow-hidden flex items-center justify-center"
+                  style={
+                    project.title === "DrunkenBee"
+                      ? { background: "rgb(37, 35, 38)" }
+                      : {}
                   }
-                ></div>
-                {project.title === "Holm" ? (
-                  <p
-                    className="font-semibold text-center w-full h-48 flex items-center justify-center p-4"
-                    style={{
-                      fontFamily:
-                        '"Inter Display", "Inter Display Placeholder", sans-serif',
-                      fontSize: "40px",
-                      fontWeight: 600,
-                      letterSpacing: "-0.02em",
-                      lineHeight: "0.8em",
-                      color: "rgb(0, 0, 0)",
-                    }}
-                  >
-                    holm
-                  </p>
-                ) : (
-                  <ImageWithFallback
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-                  />
-                )}
-              </div>
-
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <div>
-                    <Badge variant="outline" className="mb-2">
-                      {project.category}
-                    </Badge>
-                    <h3 className="font-semibold">{project.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {project.description}
+                >
+                  <div
+                    className={
+                      project.title !== "DrunkenBee"
+                        ? "bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 w-full h-full absolute inset-0"
+                        : ""
+                    }
+                  ></div>
+                  {project.title === "Holm" ? (
+                    <p
+                      className="font-semibold text-center w-full h-48 flex items-center justify-center p-4"
+                      style={{
+                        fontFamily:
+                          '"Inter Display", "Inter Display Placeholder", sans-serif',
+                        fontSize: "40px",
+                        fontWeight: 600,
+                        letterSpacing: "-0.02em",
+                        lineHeight: "0.8em",
+                        color: "rgb(0, 0, 0)",
+                      }}
+                    >
+                      holm
                     </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, tagIndex) => (
-                      <Badge
-                        key={tagIndex}
-                        variant="secondary"
-                        className="text-xs"
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
+                  ) : (
+                    <ImageWithFallback
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-48 object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+                    />
+                  )}
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    <div>
+                      <Badge variant="outline" className="mb-2">
+                        {project.category}
+                      </Badge>
+                      <h3 className="font-semibold">{project.title}</h3>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, tagIndex) => (
+                        <Badge
+                          key={tagIndex}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+        </div>
+
+        {/* Navigation Arrows */}
+        <div className="flex justify-center items-center gap-4 mt-12">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+            disabled={currentPage === 0}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+
+          <span className="text-sm text-muted-foreground">
+            Page {currentPage + 1} of{" "}
+            {Math.ceil(projects.length / itemsPerPage)}
+          </span>
+
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() =>
+              setCurrentPage(
+                Math.min(
+                  Math.ceil(projects.length / itemsPerPage) - 1,
+                  currentPage + 1
+                )
+              )
+            }
+            disabled={
+              currentPage >= Math.ceil(projects.length / itemsPerPage) - 1
+            }
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
 
         {/* <div className="text-center mt-12">
