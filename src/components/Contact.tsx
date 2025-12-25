@@ -2,43 +2,81 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { analytics } from "@/utils/analytics";
+
+// API URL - update with your Railway domain after deployment
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
+interface ContactFormData {
+  name: string;
+  email: string;
+  company?: string;
+  projectType: string;
+  budget: string;
+  message: string;
+}
+
+const PROJECT_TYPES = [
+  "Full-Stack Development",
+  "AI Tools & Agents",
+  "Data Engineering",
+  "Product Strategy",
+  "Security Audit",
+  "Digital Transformation",
+  "Other",
+];
+
+const BUDGET_RANGES = [
+  "Under $10k",
+  "$10k - $25k",
+  "$25k - $50k",
+  "$50k - $100k",
+  "$100k+",
+  "Not sure yet",
+];
 
 export function Contact() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormData>();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
 
-    // Create mailto URL with form data
-    const recipient = "blacktagdevs@gmail.com";
-    const subject = encodeURIComponent(
-      `[INQUIRY] - ${formData.firstName} ${formData.lastName} - ${
-        formData.subject || "Contact from Landing Page"
-      }`
-    );
-    const body = encodeURIComponent(formData.message);
+    try {
+      const response = await fetch(`${API_URL}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    const mailtoURL = `mailto:${recipient}?subject=${subject}&body=${body}`;
+      const result = await response.json();
 
-    // Open the user's default email client
-    window.location.href = mailtoURL;
-  };
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to submit");
+      }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+      analytics.formSubmit("contact");
+      toast.success("Message sent! We'll be in touch within 24 hours.");
+      reset();
+    } catch (error) {
+      console.error("Contact form error:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again or email us directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -48,12 +86,6 @@ export function Contact() {
       content: "blacktagdevs@gmail.com",
       description: "Send us an email anytime!",
     },
-    // {
-    //   icon: Phone,
-    //   title: "Call Us",
-    //   content: "+1 (555) 123-4567",
-    //   description: "Mon-Fri from 8am to 5pm"
-    // },
     {
       icon: MapPin,
       title: "Where are we?",
@@ -116,85 +148,166 @@ export function Contact() {
                 <CardTitle>Send us a message</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Name */}
                     <div className="space-y-2">
-                      <label
-                        htmlFor="firstName"
-                        className="text-sm font-medium"
-                      >
-                        First Name *
+                      <label htmlFor="name" className="text-sm font-medium">
+                        Name *
                       </label>
                       <Input
-                        id="firstName"
-                        name="firstName"
-                        placeholder="Your first name"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
+                        id="name"
+                        placeholder="Your name"
+                        {...register("name", { required: "Name is required" })}
+                        aria-invalid={errors.name ? "true" : "false"}
                       />
+                      {errors.name && (
+                        <span className="text-sm text-destructive">
+                          {errors.name.message}
+                        </span>
+                      )}
                     </div>
+
+                    {/* Email */}
                     <div className="space-y-2">
-                      <label htmlFor="lastName" className="text-sm font-medium">
-                        Last Name *
-                      </label>
-                      <Input
-                        id="lastName"
-                        name="lastName"
-                        placeholder="Your last name"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    {/* <div className="space-y-2">
                       <label htmlFor="email" className="text-sm font-medium">
                         Email *
                       </label>
                       <Input
                         id="email"
-                        name="email"
                         type="email"
                         placeholder="your.email@example.com"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
+                        {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address",
+                          },
+                        })}
+                        aria-invalid={errors.email ? "true" : "false"}
                       />
-                    </div> */}
+                      {errors.email && (
+                        <span className="text-sm text-destructive">
+                          {errors.email.message}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
+                  {/* Company */}
                   <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium">
-                      Subject *
+                    <label htmlFor="company" className="text-sm font-medium">
+                      Company
                     </label>
                     <Input
-                      id="subject"
-                      name="subject"
-                      placeholder="What's this about?"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
+                      id="company"
+                      placeholder="Your company (optional)"
+                      {...register("company")}
                     />
                   </div>
 
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Project Type */}
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="projectType"
+                        className="text-sm font-medium"
+                      >
+                        What can we help with? *
+                      </label>
+                      <select
+                        id="projectType"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        {...register("projectType", {
+                          required: "Please select a project type",
+                        })}
+                        aria-invalid={errors.projectType ? "true" : "false"}
+                      >
+                        <option value="">Select project type</option>
+                        {PROJECT_TYPES.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.projectType && (
+                        <span className="text-sm text-destructive">
+                          {errors.projectType.message}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Budget Range */}
+                    <div className="space-y-2">
+                      <label htmlFor="budget" className="text-sm font-medium">
+                        Budget Range *
+                      </label>
+                      <select
+                        id="budget"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        {...register("budget", {
+                          required: "Please select a budget range",
+                        })}
+                        aria-invalid={errors.budget ? "true" : "false"}
+                      >
+                        <option value="">Select budget range</option>
+                        {BUDGET_RANGES.map((range) => (
+                          <option key={range} value={range}>
+                            {range}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.budget && (
+                        <span className="text-sm text-destructive">
+                          {errors.budget.message}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Message */}
                   <div className="space-y-2">
                     <label htmlFor="message" className="text-sm font-medium">
-                      Message *
+                      Tell us about your project *
                     </label>
                     <Textarea
                       id="message"
-                      name="message"
-                      placeholder="Tell us about your project..."
+                      placeholder="What problem are you trying to solve? What's your timeline?"
                       rows={6}
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
+                      {...register("message", {
+                        required: "Please describe your project",
+                        minLength: {
+                          value: 20,
+                          message:
+                            "Please provide more detail (at least 20 characters)",
+                        },
+                      })}
+                      aria-invalid={errors.message ? "true" : "false"}
                     />
+                    {errors.message && (
+                      <span className="text-sm text-destructive">
+                        {errors.message.message}
+                      </span>
+                    )}
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full group">
-                    Send Message
-                    <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full group"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </>
+                    )}
                   </Button>
                 </form>
               </CardContent>

@@ -81,15 +81,6 @@ export function Portfolio() {
       link: "https://drunkenbeegame.com/",
     },
     {
-      title: "Taja",
-      description:
-        "PCI-compliant payment processing system with real-time transaction capabilities and 99.99% uptime.",
-      image: simpleLogoImg,
-      tags: ["FinTech", "PCI Compliance", "Real-time", "Security"],
-      category: "FinTech",
-      metrics: ["$500K+ Processed", "100+ Merchants", "99.99% Uptime"],
-    },
-    {
       title: "RendezView",
       description:
         "AI-powered event planning platform designed to improve vendor conversion rates through intelligent recommendations.",
