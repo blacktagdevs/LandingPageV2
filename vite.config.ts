@@ -1,9 +1,27 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { visualizer } from "rollup-plugin-visualizer";
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Image optimization
+    ViteImageOptimizer({
+      png: { quality: 80 },
+      jpeg: { quality: 80 },
+      jpg: { quality: 80 },
+      webp: { quality: 80 },
+    }),
+    // Bundle analyzer - generates stats.html after build
+    visualizer({
+      filename: "dist/stats.html",
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+    }),
+  ],
   base: "/",
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
@@ -73,6 +91,18 @@ export default defineConfig({
   build: {
     target: "esnext",
     outDir: "dist",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          radix: [
+            "@radix-ui/react-slot",
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-label",
+          ],
+        },
+      },
+    },
   },
   server: {
     port: 3000,
