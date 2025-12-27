@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { analytics } from "@/utils/analytics";
 
-// API URL - update with your Railway domain after deployment
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+// API URL for contact form submissions
+const API_URL = "https://landingpagev2-production.up.railway.app";
 
 interface ContactFormData {
   name: string;
