@@ -11,7 +11,7 @@ const ZOHO_REFRESH_TOKEN = process.env.ZOHO_REFRESH_TOKEN || "";
 const PORT = parseInt(process.env.PORT || "3001");
 const ALLOWED_ORIGINS = (
   process.env.ALLOWED_ORIGINS ||
-  "https://blacktagdevs.com,https://www.blacktagdevs.com,http://localhost:3000"
+  "https://blacktagdevs.com,https://www.blacktagdevs.com,https://rendezview.com,https://www.rendezview.com,http://localhost:3000,http://localhost:5173"
 ).split(",");
 
 // CORS configuration
@@ -42,6 +42,14 @@ interface LeadData {
   projectType: string;
   budget: string;
   message: string;
+}
+
+interface VendorWaitlistData {
+  name: string;
+  email: string;
+  businessType: string;
+  location: string;
+  businessName?: string;
 }
 
 interface ZohoTokenResponse {
@@ -140,6 +148,64 @@ function isValidEmail(email: string): boolean {
   return emailRegex.test(email);
 }
 
+// Map business type to descriptive format
+const BUSINESS_TYPE_MAP: Record<string, string> = {
+  photographer: "Photography Services",
+  videographer: "Videography Services",
+  dj: "DJ Services",
+  catering: "Catering Services",
+  venue: "Event Venue",
+  decor: "Decor & Styling",
+  entertainment: "Entertainment Services",
+  planning: "Event Planning",
+  other: "Other Event Services",
+};
+
+// Create vendor waitlist lead in Zoho CRM
+async function createVendorLead(
+  data: VendorWaitlistData,
+  accessToken: string
+): Promise<ZohoLeadResponse> {
+  const nameParts = data.name.trim().split(" ");
+  const firstName = nameParts[0] || "";
+  const lastName = nameParts.slice(1).join(" ") || firstName;
+  const serviceType = BUSINESS_TYPE_MAP[data.businessType] || data.businessType;
+
+  const response = await fetch("https://www.zohoapis.com/crm/v2/Leads", {
+    method: "POST",
+    headers: {
+      Authorization: `Zoho-oauthtoken ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      data: [
+        {
+          First_Name: firstName,
+          Last_Name: lastName,
+          Email: data.email,
+          City: data.location,
+          Company: data.businessName || `${serviceType} - ${data.location}`,
+          Industry: "Event Services",
+          Description: `Vendor Waitlist Signup - ${serviceType}\nLocation: ${data.location}\nBusiness Name: ${data.businessName || "Not provided"}\nSubmitted: ${new Date().toISOString()}`,
+          Lead_Source: "RendezView Vendor Landing Page",
+          Lead_Status: "Not Contacted",
+          Rating: "Hot",
+        },
+      ],
+      trigger: ["approval", "workflow", "blueprint"],
+    }),
+  });
+
+  const result = (await response.json()) as ZohoLeadResponse;
+
+  if (!response.ok) {
+    console.error("Zoho CRM error:", result);
+    throw new Error(result.message || "Failed to create lead in Zoho CRM");
+  }
+
+  return result;
+}
+
 // Contact form endpoint
 app.post("/contact", async (c) => {
   try {
@@ -205,6 +271,73 @@ app.post("/contact", async (c) => {
       {
         error:
           "Failed to submit your message. Please email us directly at blacktagdevs@gmail.com",
+        details: process.env.NODE_ENV === "development" ? errorMessage : undefined,
+      },
+      500
+    );
+  }
+});
+
+// RendezView Vendor Waitlist endpoint
+app.post("/vendor-waitlist", async (c) => {
+  try {
+    const body = await c.req.json<VendorWaitlistData>();
+
+    // Validation
+    if (!body.name || body.name.trim().length < 2) {
+      return c.json({ error: "Please enter your full name" }, 400);
+    }
+
+    if (!body.email || !isValidEmail(body.email)) {
+      return c.json({ error: "Please enter a valid email address" }, 400);
+    }
+
+    if (!body.businessType) {
+      return c.json({ error: "Please select your service type" }, 400);
+    }
+
+    if (!body.location || body.location.trim().length < 3) {
+      return c.json({ error: "Please enter your city and state" }, 400);
+    }
+
+    // Check if Zoho is configured
+    if (!ZOHO_CLIENT_ID || !ZOHO_CLIENT_SECRET || !ZOHO_REFRESH_TOKEN) {
+      console.error("Zoho CRM not configured - falling back to log only");
+      console.log("New vendor waitlist signup:", {
+        name: body.name,
+        email: body.email,
+        businessType: body.businessType,
+        location: body.location,
+        businessName: body.businessName || "(not provided)",
+      });
+
+      return c.json({
+        success: true,
+        message: "Thank you for joining the waitlist! We'll be in touch soon.",
+        warning: "CRM integration pending setup",
+      });
+    }
+
+    // Create lead in Zoho CRM
+    const accessToken = await getAccessToken();
+    const result = await createVendorLead(body, accessToken);
+
+    console.log(`Vendor lead created: ${body.email} (${body.businessType} in ${body.location})`);
+
+    return c.json({
+      success: true,
+      message: "Thank you for joining the waitlist! We'll be in touch soon.",
+      id: result.data?.[0]?.details?.id,
+    });
+  } catch (error) {
+    console.error("Vendor waitlist error:", error);
+
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error occurred";
+
+    return c.json(
+      {
+        error: "Unable to process your request. Please try again.",
         details: process.env.NODE_ENV === "development" ? errorMessage : undefined,
       },
       500
