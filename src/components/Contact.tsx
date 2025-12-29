@@ -4,21 +4,11 @@ import { Textarea } from "./ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Mail, MapPin, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { analytics } from "@/utils/analytics";
 
 // API URL for contact form submissions
 const API_URL = "https://landingpagev2-production.up.railway.app";
-
-interface ContactFormData {
-  name: string;
-  email: string;
-  company?: string;
-  projectType: string;
-  budget: string;
-  message: string;
-}
 
 const PROJECT_TYPES = [
   "Full-Stack Development",
@@ -41,21 +31,33 @@ const BUDGET_RANGES = [
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<ContactFormData>();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    projectType: "",
+    budget: "",
+    message: "",
+  });
 
-  const onSubmit = async (data: ContactFormData) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
 
     try {
       const response = await fetch(`${API_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
@@ -66,7 +68,14 @@ export function Contact() {
 
       analytics.formSubmit("contact");
       toast.success("Message sent! We'll be in touch within 24 hours.");
-      reset();
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        projectType: "",
+        budget: "",
+        message: "",
+      });
     } catch (error) {
       console.error("Contact form error:", error);
       toast.error(
@@ -148,7 +157,7 @@ export function Contact() {
                 <CardTitle>Send us a message</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Name */}
                     <div className="space-y-2">
@@ -157,15 +166,12 @@ export function Contact() {
                       </label>
                       <Input
                         id="name"
+                        name="name"
                         placeholder="Your name"
-                        {...register("name", { required: "Name is required" })}
-                        aria-invalid={errors.name ? "true" : "false"}
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
                       />
-                      {errors.name && (
-                        <span className="text-sm text-destructive">
-                          {errors.name.message}
-                        </span>
-                      )}
                     </div>
 
                     {/* Email */}
@@ -175,22 +181,13 @@ export function Contact() {
                       </label>
                       <Input
                         id="email"
+                        name="email"
                         type="email"
                         placeholder="your.email@example.com"
-                        {...register("email", {
-                          required: "Email is required",
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address",
-                          },
-                        })}
-                        aria-invalid={errors.email ? "true" : "false"}
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
                       />
-                      {errors.email && (
-                        <span className="text-sm text-destructive">
-                          {errors.email.message}
-                        </span>
-                      )}
                     </div>
                   </div>
 
@@ -201,8 +198,10 @@ export function Contact() {
                     </label>
                     <Input
                       id="company"
+                      name="company"
                       placeholder="Your company (optional)"
-                      {...register("company")}
+                      value={formData.company}
+                      onChange={handleChange}
                     />
                   </div>
 
@@ -217,11 +216,11 @@ export function Contact() {
                       </label>
                       <select
                         id="projectType"
+                        name="projectType"
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                        {...register("projectType", {
-                          required: "Please select a project type",
-                        })}
-                        aria-invalid={errors.projectType ? "true" : "false"}
+                        value={formData.projectType}
+                        onChange={handleChange}
+                        required
                       >
                         <option value="">Select project type</option>
                         {PROJECT_TYPES.map((type) => (
@@ -230,11 +229,6 @@ export function Contact() {
                           </option>
                         ))}
                       </select>
-                      {errors.projectType && (
-                        <span className="text-sm text-destructive">
-                          {errors.projectType.message}
-                        </span>
-                      )}
                     </div>
 
                     {/* Budget Range */}
@@ -244,11 +238,11 @@ export function Contact() {
                       </label>
                       <select
                         id="budget"
+                        name="budget"
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                        {...register("budget", {
-                          required: "Please select a budget range",
-                        })}
-                        aria-invalid={errors.budget ? "true" : "false"}
+                        value={formData.budget}
+                        onChange={handleChange}
+                        required
                       >
                         <option value="">Select budget range</option>
                         {BUDGET_RANGES.map((range) => (
@@ -257,38 +251,22 @@ export function Contact() {
                           </option>
                         ))}
                       </select>
-                      {errors.budget && (
-                        <span className="text-sm text-destructive">
-                          {errors.budget.message}
-                        </span>
-                      )}
                     </div>
                   </div>
 
                   {/* Message */}
                   <div className="space-y-2">
                     <label htmlFor="message" className="text-sm font-medium">
-                      Tell us about your project *
+                      Tell us about your project
                     </label>
                     <Textarea
                       id="message"
-                      placeholder="What problem are you trying to solve? What's your timeline?"
+                      name="message"
+                      placeholder="What problem are you trying to solve? What's your timeline? (optional)"
                       rows={6}
-                      {...register("message", {
-                        required: "Please describe your project",
-                        minLength: {
-                          value: 20,
-                          message:
-                            "Please provide more detail (at least 20 characters)",
-                        },
-                      })}
-                      aria-invalid={errors.message ? "true" : "false"}
+                      value={formData.message}
+                      onChange={handleChange}
                     />
-                    {errors.message && (
-                      <span className="text-sm text-destructive">
-                        {errors.message.message}
-                      </span>
-                    )}
                   </div>
 
                   <Button

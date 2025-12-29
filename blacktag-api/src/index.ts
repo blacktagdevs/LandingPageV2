@@ -146,9 +146,9 @@ app.post("/contact", async (c) => {
     const body = await c.req.json<LeadData>();
 
     // Validation
-    if (!body.name || !body.email || !body.message) {
+    if (!body.name || !body.email) {
       return c.json(
-        { error: "Missing required fields: name, email, message" },
+        { error: "Missing required fields: name, email" },
         400
       );
     }
@@ -165,13 +165,6 @@ app.post("/contact", async (c) => {
       return c.json({ error: "Please select a budget range" }, 400);
     }
 
-    if (body.message.length < 20) {
-      return c.json(
-        { error: "Please provide more detail about your project (at least 20 characters)" },
-        400
-      );
-    }
-
     // Check if Zoho is configured
     if (!ZOHO_CLIENT_ID || !ZOHO_CLIENT_SECRET || !ZOHO_REFRESH_TOKEN) {
       console.error("Zoho CRM not configured - falling back to log only");
@@ -181,7 +174,7 @@ app.post("/contact", async (c) => {
         company: body.company,
         projectType: body.projectType,
         budget: body.budget,
-        message: body.message.substring(0, 100) + "...",
+        message: body.message || "(no message)",
       });
 
       return c.json({
