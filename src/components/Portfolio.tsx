@@ -8,7 +8,7 @@ import { useState } from "react";
 // Import project images
 import stemposureImg from "../assets/stemposure.png";
 import drunkenBeeImg from "../assets/drunkenbee.webp";
-import simpleLogoImg from "../assets/simpleLogo.svg";
+import rendezviewImg from "../assets/rendezview.svg";
 import holmImg from "../assets/holm.png";
 import renderAtlImg from "../assets/RenderATL_Logo.jpg";
 import hbcuMadeImg from "../assets/hbcumade.png";
@@ -84,7 +84,7 @@ export function Portfolio() {
       title: "RendezView",
       description:
         "AI-powered event planning platform designed to improve vendor conversion rates through intelligent recommendations.",
-      image: simpleLogoImg,
+      image: rendezviewImg,
       tags: ["AI/ML", "Event Planning", "Recommendations", "Analytics"],
       category: "AI-Powered Platform",
       metrics: [
@@ -92,6 +92,7 @@ export function Portfolio() {
         "$100K+ Potential Bookings",
         "25% Conversion Boost",
       ],
+      link: "https://rendezview.app",
     },
   ];
 
