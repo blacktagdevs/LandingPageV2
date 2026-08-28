@@ -1,27 +1,22 @@
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  Mail,
-  ArrowUp,
-} from "lucide-react";
-import logoImage from "figma:asset/3da411c0a3b644d5c8195b1ab622779ebc2cbb9e.png";
+import { Linkedin, ArrowUp } from "lucide-react";
+import fullLogo from "../assets/FullLogo.svg";
 
 export function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Only destinations that actually resolve. Careers / Press / Blog /
+  // Help Center / Privacy Policy were all href="#" — add them back here
+  // once those pages exist.
   const footerLinks = {
     company: [
       { name: "About Us", href: "#about" },
-      { name: "Our Team", href: "#" },
-      { name: "Careers", href: "#" },
-      { name: "Press", href: "#" },
+      { name: "Our Team", href: "#about" },
+      { name: "Contact", href: "#contact" },
     ],
     services: [
       { name: "Web Design", href: "#services" },
@@ -30,38 +25,37 @@ export function Footer() {
       { name: "Consulting", href: "#services" },
     ],
     resources: [
-      { name: "Blog", href: "#" },
       { name: "Case Studies", href: "#portfolio" },
-      { name: "Help Center", href: "#" },
-      { name: "Privacy Policy", href: "#" },
+      { name: "Recent Work", href: "#portfolio" },
+      { name: "Start a Project", href: "#contact" },
     ],
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/company/blacktagdevs/",
+      label: "LinkedIn",
+    },
   ];
 
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="bg-card text-foreground border-t">
       <div className="container mx-auto px-6 py-16">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Company Info */}
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <h3 className="font-bold text-xl">BlackTagDevs</h3>
+              <div className="mb-4">
                 <img
-                  src={logoImage}
-                  alt="BlackTagDevs Logo"
-                  className="w-8 h-8 object-contain"
+                  src={fullLogo}
+                  alt="BlackTagDevs"
+                  className="h-8 w-auto"
                   style={{ filter: "invert(1) brightness(2)" }}
                 />
               </div>
-              <p className="text-primary-foreground/80 max-w-md">
+              <p className="text-muted-foreground max-w-md">
                 We're a creative digital agency that helps businesses transform
                 their digital presence through innovative design and
                 development.
@@ -74,7 +68,7 @@ export function Footer() {
               <div className="flex space-x-2">
                 <Input
                   placeholder="Enter your email"
-                  className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
+                  className="bg-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
                 />
                 <Button variant="secondary">
                   <Mail className="h-4 w-4" />
@@ -91,7 +85,7 @@ export function Footer() {
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
                   </a>
@@ -108,7 +102,7 @@ export function Footer() {
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
                   </a>
@@ -125,7 +119,7 @@ export function Footer() {
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
                   </a>
@@ -135,11 +129,11 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="bg-primary-foreground/20" />
+        <Separator className="bg-border" />
 
         {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 space-y-4 md:space-y-0">
-          <div className="text-primary-foreground/80">
+          <div className="text-muted-foreground">
             © 2025 BlackTagDevs. All rights reserved.
           </div>
 
@@ -151,8 +145,10 @@ export function Footer() {
                 <a
                   key={index}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
+                  className="w-10 h-10 bg-foreground/10 rounded-full flex items-center justify-center hover:bg-foreground/20 transition-colors"
                 >
                   <Icon className="h-5 w-5" />
                 </a>

@@ -6,7 +6,7 @@ export function StructuredData() {
     description:
       "Technology consulting and product development company specializing in full-stack development, AI tools, data engineering, and digital transformation",
     url: "https://blacktagdevs.com",
-    email: "blacktagdevs@gmail.com",
+    email: "team@blacktagdevs.com",
     areaServed: "United States",
     address: {
       "@type": "PostalAddress",
