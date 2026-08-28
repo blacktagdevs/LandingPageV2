@@ -1,11 +1,19 @@
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
-import logoImage from "figma:asset/3da411c0a3b644d5c8195b1ab622779ebc2cbb9e.png";
+import fullLogo from "../assets/FullLogo.svg";
 import { analytics } from "@/utils/analytics";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
@@ -70,16 +78,22 @@ export function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-background/95 backdrop-blur-md border-b shadow-sm"
+          : "bg-transparent border-b border-transparent"
+      }`}
+    >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center space-x-3">
-            <h1 className="font-bold">BlackTagDevs</h1>
+          <div className="flex-shrink-0">
             <img
-              src={logoImage}
-              alt="BlackTagDevs Logo"
-              className="w-8 h-8 object-contain"
+              src={fullLogo}
+              alt="BlackTagDevs"
+              className="h-5 sm:h-6 w-auto transition-all duration-300"
+              style={{ filter: "invert(1) brightness(2)" }}
             />
           </div>
 
@@ -89,7 +103,12 @@ export function Header() {
               <a
                 key={link.id}
                 href={`#${link.id}`}
-                className="hover:text-primary transition-colors"
+                className="transition-colors duration-300"
+                style={{ color: "rgba(255, 255, 255, 0.85)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = "rgba(255, 255, 255, 0.85)")
+                }
                 onClick={(e) => handleNavClick(e, link.id)}
               >
                 {link.label}
@@ -99,16 +118,19 @@ export function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex">
-            <Button asChild>
-              <a href="#contact" onClick={handleCtaClick}>
-                Get Started
-              </a>
-            </Button>
+            <a
+              href="#contact"
+              onClick={handleCtaClick}
+              className="px-5 py-2 bg-white text-background font-semibold rounded-full text-sm transition-all duration-300 hover:bg-white/90"
+            >
+              Get Started
+            </a>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 -mr-2 rounded-md hover:bg-muted transition-colors"
+            className="md:hidden p-2 -mr-2 rounded-md transition-colors text-white"
+            style={{ color: "#ffffff" }}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
@@ -123,7 +145,7 @@ export function Header() {
           <>
             {/* Backdrop */}
             <div
-              className="fixed inset-0 top-16 bg-black/20 md:hidden"
+              className="fixed inset-0 top-16 bg-black/60 md:hidden"
               onClick={closeMenu}
               aria-hidden="true"
             />

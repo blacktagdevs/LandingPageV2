@@ -8,14 +8,14 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
+  --primary: #0a0a0a;
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.95 0.0058 264.53);
-  --secondary-foreground: #030213;
+  --secondary-foreground: #0a0a0a;
   --muted: #ececf0;
   --muted-foreground: #717182;
   --accent: #e9ebef;
-  --accent-foreground: #030213;
+  --accent-foreground: #0a0a0a;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
   --border: rgba(0, 0, 0, 0.1);
@@ -31,9 +31,17 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --radius: 0.625rem;
+  /* Brand accent — the logo is monochrome, so this is the one colour the site
+     spends. Used for eyebrow chips, service glyphs, links and hover states. */
+  /* Chrome accent — monochrome, matching the logo. Chips, glyphs, bullets. */
+  --brand: #0a0a0a;
+  --brand-contrast: #ffffff;
+  /* The one tinted colour on the site, reserved for links so they stay
+     identifiable as links. */
+  --link: #2563eb;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
+  --sidebar-primary: #0a0a0a;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -42,40 +50,47 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
+  /* Neutral near-black. The Hero, Header and LoadingScreen all read this
+     token rather than hardcoding it, so the base is changed in one place. */
+  --background: #070707;
+  --foreground: #f5f5f5;
+  --card: #101010;
+  --card-foreground: #f5f5f5;
+  --popover: #101010;
+  --popover-foreground: #f5f5f5;
+  --primary: #ffffff;
+  --primary-foreground: #070707;
+  --secondary: #1c1c1c;
+  --secondary-foreground: #f5f5f5;
+  --muted: #151515;
+  --muted-foreground: #a3a3a3;
+  --accent: #1c1c1c;
+  --accent-foreground: #f5f5f5;
+  --destructive: #e5484d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.06);
+  --input-background: #151515;
+  --switch-background: #3d3d3d;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
+  --ring: #525252;
+  --brand: #f5f5f5;
+  --brand-contrast: #070707;
+  --link: #5b9dff;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --sidebar: #101010;
+  --sidebar-foreground: #f5f5f5;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #070707;
+  --sidebar-accent: #1c1c1c;
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #525252;
 }
 
 @theme inline {
@@ -100,6 +115,9 @@
   --color-input-background: var(--input-background);
   --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-contrast: var(--brand-contrast);
+  --color-link: var(--link);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -186,4 +204,96 @@
 
 html {
   font-size: var(--font-size);
+  scroll-behavior: smooth;
+}
+
+/* ─── Animations ─── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -50px) scale(1.1); }
+  50% { transform: translate(-20px, 20px) scale(0.9); }
+  75% { transform: translate(20px, 50px) scale(1.05); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out both;
+}
+.animate-blob {
+  animation: blob 10s infinite;
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* --- Ambient background motion (see ui/ambient-background.tsx) ---------- */
+
+.ambient-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  animation: ambient-grid-drift 24s linear infinite;
+}
+
+/* Dissolve the grid toward the edges so it never reads as a hard pattern */
+.ambient-grid-mask {
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 45%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 45%, #000 0%, transparent 78%);
+}
+
+.ambient-drift-a {
+  animation: ambient-drift-a 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+.ambient-drift-b {
+  animation: ambient-drift-b 32s ease-in-out infinite;
+  will-change: transform;
+}
+
+.ambient-grain {
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+@keyframes ambient-grid-drift {
+  to {
+    transform: translateY(64px);
+  }
+}
+
+@keyframes ambient-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(9%, 7%) scale(1.18); }
+}
+
+@keyframes ambient-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1.12); }
+  50%      { transform: translate(-8%, -9%) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-grid,
+  .ambient-drift-a,
+  .ambient-drift-b {
+    animation: none;
+  }
 }

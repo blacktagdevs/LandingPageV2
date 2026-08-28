@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
@@ -7,6 +8,7 @@ import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 export default defineConfig({
   plugins: [
     react(),
+    tailwindcss(),
     // Image optimization
     ViteImageOptimizer({
       png: { quality: 80 },

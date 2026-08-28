@@ -6,9 +6,13 @@ import { Mail, MapPin, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { analytics } from "@/utils/analytics";
+import { ScrollReveal } from "./ui/scroll-reveal";
+import { AnimatedText } from "./ui/animated-text";
 
 // API URL for contact form submissions
-const API_URL = "https://landingpagev2-production.up.railway.app";
+const API_URL =
+  import.meta.env.VITE_API_URL ??
+  "https://landingpagev2-production.up.railway.app";
 
 const PROJECT_TYPES = [
   "Full-Stack Development",
@@ -92,7 +96,7 @@ export function Contact() {
     {
       icon: Mail,
       title: "Email Us",
-      content: "blacktagdevs@gmail.com",
+      content: "team@blacktagdevs.com",
       description: "Send us an email anytime!",
     },
     {
@@ -106,20 +110,25 @@ export function Contact() {
   return (
     <section id="contact" className="py-24">
       <div className="container mx-auto px-6">
-        <div className="text-center space-y-4 mb-16">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
-            Contact
+        <ScrollReveal>
+          <div className="text-center space-y-4 mb-16">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-brand/10 text-brand border border-brand/25">
+              Contact
+            </div>
+            <AnimatedText
+              text="Let's Work Together"
+              tag="h2"
+              className="text-3xl lg:text-5xl font-bold"
+            />
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Ready to start your next project? Get in touch with us and let's
+              discuss how we can help bring your vision to life.
+            </p>
           </div>
-          <h2 className="text-3xl lg:text-5xl font-bold">
-            Let's Work Together
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Ready to start your next project? Get in touch with us and let's
-            discuss how we can help bring your vision to life.
-          </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <ScrollReveal delay={200}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Information */}
           <div className="space-y-6">
             {contactInfo.map((info, index) => {
@@ -131,7 +140,7 @@ export function Contact() {
                 >
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <div className="w-12 h-12 bg-brand/10 rounded-xl flex items-center justify-center group-hover:bg-brand/20 transition-colors">
                         <Icon className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1">
@@ -269,29 +278,31 @@ export function Contact() {
                     />
                   </div>
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full group"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        Send Message
-                        <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </>
-                    )}
-                  </Button>
+                  <div className="flex sm:justify-end">
+                    <Button
+                      type="submit"
+                      className="w-full sm:w-auto h-[44px] sm:h-[38px] px-8 group"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </form>
               </CardContent>
             </Card>
           </div>
-        </div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
