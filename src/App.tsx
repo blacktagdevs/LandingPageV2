@@ -5,6 +5,7 @@ import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
 import { About } from "./components/About";
+import { Featured } from "./components/Featured";
 import { Footer } from "./components/Footer";
 import { StructuredData } from "./components/StructuredData";
 import { LoadingScreen } from "./components/LoadingScreen";
@@ -93,6 +94,7 @@ export default function App() {
           <Hero />
           <Services />
           <About />
+          <Featured />
           <Suspense
             fallback={
               <div className="h-96 flex items-center justify-center">

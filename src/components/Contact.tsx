@@ -108,7 +108,7 @@ export function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-24">
+    <section id="contact" className="py-24 bg-muted/30">
       <div className="container mx-auto px-6">
         <ScrollReveal>
           <div className="text-center space-y-4 mb-16">

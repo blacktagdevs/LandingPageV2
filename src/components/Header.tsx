@@ -73,6 +73,7 @@ export function Header() {
     { id: "home", label: "Home" },
     { id: "services", label: "Services" },
     { id: "about", label: "About" },
+    { id: "featured", label: "Featured" },
     { id: "portfolio", label: "Portfolio" },
     { id: "contact", label: "Contact" },
   ];
