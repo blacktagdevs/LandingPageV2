@@ -95,20 +95,6 @@ export function Portfolio() {
       link: "https://www.bkrm.io",
     },
     {
-      title: "RendezView",
-      description:
-        "AI-powered event planning marketplace connecting hosts with vendors and venues, featuring an AI planning assistant, moodboards, and vendor bundles.",
-      image: rendezviewImg,
-      tags: ["AI/ML", "Marketplace", "Event Planning", "React", "FastAPI"],
-      category: "AI-Powered Marketplace",
-      metrics: [
-        "40% User Interest",
-        "$100K+ Potential Bookings",
-        "25% Conversion Boost",
-      ],
-      link: "https://rendezview.app",
-    },
-    {
       title: "Holm",
       description:
         "Modern platform with user authentication, gallery features, and subscription-based services designed for creative professionals.",
