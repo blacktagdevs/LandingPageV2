@@ -5,8 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlackTagDevs | Technology Consulting & Product Development</title>
 
+    <!-- Social scrapers (Discord, iMessage, Slack, LinkedIn, X) never run our
+         JS, so every tag they need has to be static in this file. Do not move
+         these back into a <Helmet> block. -->
+    <meta
+      name="description"
+      content="BlackTagDevs builds efficient, scalable tech solutions across software, data, AI, and design. Expert team from Amex, Microsoft, Google &amp; NBC."
+    />
+    <meta
+      name="keywords"
+      content="technology consulting, software development, AI tools, fullstack development, product strategy, Atlanta tech, data engineering, digital transformation"
+    />
+    <link rel="canonical" href="https://www.blacktagdevs.com/" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="BlackTagDevs" />
+    <meta name="geo.region" content="US-GA" />
+    <meta name="geo.placename" content="Atlanta" />
+
+    <!-- Open Graph. The apex domain 301s to www, and scrapers don't reliably
+         follow redirects on og:image, so these point straight at www. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BlackTagDevs" />
+    <meta
+      property="og:title"
+      content="BlackTagDevs | Pioneering Technical Innovations"
+    />
+    <meta
+      property="og:description"
+      content="End-to-end tech solutions across software, data, AI, and design. Building efficient, scalable solutions for your business."
+    />
+    <meta property="og:url" content="https://www.blacktagdevs.com/" />
+    <meta
+      property="og:image"
+      content="https://www.blacktagdevs.com/og-image.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="BlackTagDevs - Technical Innovation Studio"
+    />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BlackTagDevs" />
+    <meta
+      name="twitter:description"
+      content="Pioneering Technical Innovations - End-to-end tech solutions across software, data, AI, and design."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.blacktagdevs.com/og-image.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="BlackTagDevs - Technical Innovation Studio"
+    />
+
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- The site renders dark only; tell the browser so its chrome,
          scrollbars and native form controls match. -->
